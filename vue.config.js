@@ -4,5 +4,6 @@ module.exports = {
     sourceMap: true
   },
 
-  assetsDir: 'dist'
+  assetsDir: './',
+  publicPath: '/dist/'
 }
