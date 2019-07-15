@@ -5,5 +5,6 @@ module.exports = {
   },
 
   assetsDir: './',
-  publicPath: '/dist/'
+  publicPath: '/static/',
+  outputDir: 'static'
 }
