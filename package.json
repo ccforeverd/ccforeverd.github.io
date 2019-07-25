@@ -1,15 +1,19 @@
 {
   "name": "ccforeverd.github.io",
   "version": "0.1.0",
+  "main": "index.html",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "move_index": "mv ./dist/index.html ./index.html"
+    "git": "node ./scripts/git.js"
   },
   "dependencies": {
     "core-js": "^2.6.5",
+    "del": "^5.0.0",
+    "fs-extra": "^8.1.0",
+    "nodegit": "^0.24.3",
     "vue": "^2.6.10"
   },
   "devDependencies": {
