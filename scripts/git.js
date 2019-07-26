@@ -36,33 +36,58 @@ async function main () {
   // console.log('delete', await Git.Remote.delete(repo, 'origin'))
   // const remote = await Git.Remote.createAnonymous(repo, 'git@github.com:ccforeverd/el-button-copy.git')
 
-
-  Git.Remote.setPushurl(repo, 'origin', 'github@github.com:ccforeverd/el-button-copy.git')
+  Git.Remote.setPushurl(repo, 'origin', 'git@github.com:ccforeverd/el-button-copy.git')
 
   const remote = await repo.getRemote('origin')
-
-
-
-  console.log(remote.pushurl())
-  console.log(remote.url())
-  console.log(Git.Cred.sshKeyFromAgent('git').hasUsername())
-  console.log(Git.Cred.sshKeyFromAgent('ccforeverd').hasUsername())
-  console.log(Git.Cred.sshKeyFromAgent('zh1045456074@163.com').hasUsername())
-
-  // console.log(Git.Remote.addPush(repo, 'origin', 'refs/heads/master:refs/heads/master'))
-
+  const cred = Git.Cred.sshKeyNew(
+    'zh1045456074@163.com',
+    path.join(process.env.HOME, '.ssh', 'id_rsa.pub'),
+    path.join(process.env.HOME, '.ssh', 'id_rsa'),
+    ''
+  )
+  console.log(cred)
+  const callbacks = {
+    credentials: function(url, userName) {
+      console.log(url, userName)
+      // git@github.com:ccforeverd/el-button-copy.git git
+      // git@github.com:ccforeverd/el-button-copy.git git
+      // git@github.com:ccforeverd/el-button-copy.git git
+      // git@github.com:ccforeverd/el-button-copy.git git
+      // git@github.com:ccforeverd/el-button-copy.git git
+      // git@github.com:ccforeverd/el-button-copy.git git
+      // git@github.com:ccforeverd/el-button-copy.git git
+      // git@github.com:ccforeverd/el-button-copy.git git
+      // git@github.com:ccforeverd/el-button-copy.git git
+      // git@github.com:ccforeverd/el-button-copy.git git
+      // git@github.com:ccforeverd/el-button-copy.git git
+      // git@github.com:ccforeverd/el-button-copy.git git
+      // ... 一直显示这个 原因未知
+      // return Git.Cred.sshKeyFromAgent(userName)
+      return cred
+    },
+    // certificateCheck: () => 1
+  }
+  // await remote.connect(Git.Enums.DIRECTION.PUSH, callbacks)
+  // return
   await remote.push(
     ['refs/heads/master:refs/heads/master'],
     {
-      callbacks: {
-        credentials: function(url, userName) {
-          console.log(url, userName)
-          return Git.Cred.sshKeyFromAgent(userName)
-        },
-        // certificateCheck: () => 1
-      }
-    }
+      callbacks
+    },
+    repo.defaultSignature(),
+    'push push'
   )
+
+
+  // console.log(remote.pushurl())
+  // console.log(remote.url())
+  // console.log(Git.Cred.sshKeyFromAgent('git').hasUsername())
+  // console.log(Git.Cred.sshKeyFromAgent('ccforeverd').hasUsername())
+  // console.log(Git.Cred.sshKeyFromAgent('zh1045456074@163.com').hasUsername())
+
+  // console.log(Git.Remote.addPush(repo, 'origin', 'refs/heads/master:refs/heads/master'))
+
+  
 
   console.log('Done~!')
 
